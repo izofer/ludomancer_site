@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Ludomancer Hub | Juegos Interactivos para TikTok Live por Izofer</title>
+    <meta name="description" content="Domina TikTok Live con Ludomancer Hub. Gestiona juegos interactivos como Hell Riders, aumenta tu monetización y fideliza a tus seguidores. Desarrollado por Izofer.">
+    <meta name="keywords" content="Ludomancer, TikTok Live Games, Juegos Interactivos, Izofer, Hell Riders TikTok, Streamer Software, SaaS Videojuegos">
+    <meta name="author" content="Izofer">
+    
+    <meta property="og:title" content="Ludomancer Hub | El Arte de la Interactividad">
+    <meta property="og:description" content="Convierte tus directos de TikTok en una experiencia de juego masiva con nuestro Hub profesional.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://izofer.com/ludomancer">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="icon" href="assets/logoTitles.ico" type="image/x-icon">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: #fff; overflow-x: hidden; }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 70%);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Ajustes Personalizados Señor Yodan */
+        .py-1 { padding-top: 0.25rem!important; padding-bottom: 0.25rem!important; }
+        .px-4 { padding-left: 5rem!important; padding-right: 3rem!important; }
+        .translate-y-2 { --tw-translate-y: 1.5rem!important; }
+        .translate-x-2 { --tw-translate-x: 2.5rem!important; }
+
+        /* Estilos del Modal */
+        #auth-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        .auth-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            width: 100%;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .logo{
+            width: 230px;
+        }
+
+        .auth-input:focus { border-color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.1); }
+        .tab-active { border-bottom: 2px solid white; color: white; }
+
+        #parallax-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.2;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="hero-gradient">
+
+    <div id="parallax-bg"></div>
+
+    <div id="auth-modal" class="flex items-center justify-center p-4">
+        <div class="glass w-full max-w-md p-8 rounded-[2rem] relative shadow-2xl">
+            <button onclick="toggleModal()" class="absolute top-6 right-6 text-gray-500 hover:text-white transition">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+
+            <div class="flex gap-8 mb-8 border-b border-white/10">
+                <button id="tab-login" onclick="switchAuth('login')" class="pb-3 text-sm font-bold uppercase tracking-widest tab-active">Entrar</button>
+                <button id="tab-register" onclick="switchAuth('register')" class="pb-3 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-white transition">Registrarse</button>
+            </div>
+
+            <form id="form-login" class="space-y-4">
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Email Maestro</label>
+                    <input type="email" id="login-email" class="auth-input" placeholder="tu@email.com" required>
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Contraseña</label>
+                    <input type="password" id="login-password" class="auth-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" id="btn-login-submit" class="w-full py-4 bg-white text-black font-black rounded-xl hover:bg-gray-200 transition mt-4 uppercase text-xs">Acceder al Hub</button>
+            </form>
+
+            <form id="form-register" class="space-y-4 hidden">
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Nombre de Usuario</label>
+                    <input type="text" id="reg-name" class="auth-input" placeholder="Streamer_Elite" required>
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Email</label>
+                    <input type="email" id="reg-email" class="auth-input" placeholder="tu@email.com" required>
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Crear Contraseña</label>
+                    <input type="password" id="reg-password" class="auth-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" id="btn-reg-submit" class="w-full py-4 bg-white text-black font-black rounded-xl hover:bg-gray-200 transition mt-4 uppercase text-xs">Forjar Cuenta</button>
+            </form>
+        </div>
+    </div>
+
+    <nav class="fixed w-full z-50 px-6 py-4" data-aos="fade-down">
+        <div class="max-w-7xl mx-auto flex justify-between items-center glass px-6 py-3 rounded-full">
+            <div class="flex items-center gap-2">
+                <img src="assets/logo.png" class="logo" alt="Ludomancer">
+            </div>
+            <div class="hidden md:flex gap-8 text-sm uppercase tracking-tighter">
+                <a href="#hub" class="hover:text-gray-400 transition">El Hub</a>
+                <a href="#juegos" class="hover:text-gray-400 transition">Juegos</a>
+                <a href="#precios" class="hover:text-gray-400 transition">Planes</a>
+            </div>
+            <button onclick="toggleModal()" class="bg-white text-black px-5 py-2 rounded-full text-xs font-bold hover:bg-gray-200 transition uppercase">Iniciar Sesión</button>
+        </div>
+    </nav>
+
+    <header class="h-screen flex flex-col justify-center items-center text-center px-4 pt-20">
+        <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter text-glow" data-aos="zoom-in" data-aos-duration="1500">
+            EL ARTE DE LA <br> INTERACTIVIDAD
+        </h1>
+        <p class="max-w-2xl text-gray-400 text-lg md:text-xl mb-10 font-light" data-aos="fade-up" data-aos-delay="300">
+            Gestiona, lanza y monetiza tus directos de TikTok con LUDOMANCER. La biblioteca definitiva de juegos interactivos para streamers de élite.
+        </p>
+        <div class="flex flex-col md:flex-row gap-4" data-aos="fade-up" data-aos-delay="600">
+            <a href="#" class="glass px-10 py-4 rounded-xl font-bold flex items-center gap-2 glass-hover border-white/20">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8.418 1.035a.5.5 0 0 0-.836 0L1.587 12.85A.5.5 0 0 0 2 13.5h12a.5.5 0 0 0 .413-.757L8.418 1.035z"/></svg>
+                DESCARGAR HUB (v1.0)
+            </a>
+            <a href="#juegos" class="bg-white text-black px-10 py-4 rounded-xl font-bold hover:scale-105 transition">EXPLORAR GRIMORIO</a>
+        </div>
+    </header>
+
+    <section id="hub" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="glass p-8 rounded-3xl grid md:grid-cols-2 gap-12 items-center" data-aos="fade-right">
+            <div>
+                <h2 class="text-4xl font-bold mb-6 italic">Un solo centro de mando.</h2>
+                <ul class="space-y-4 text-gray-400">
+                    <li class="flex items-center gap-3"><span class="h-2 w-2 bg-white rounded-full"></span> Instalación para Windows</li>
+                    <li class="flex items-center gap-3"><span class="h-2 w-2 bg-white rounded-full"></span> Biblioteca en constante expansión</li>
+                </ul>
+            </div>
+            <div class="aspect-video glass rounded-xl flex items-center justify-center border-dashed border-2 border-white/10" data-aos="flip-left">
+                <span class="text-gray-600 font-bold uppercase tracking-widest text-xs">[ Screenshot de la Interfaz del Hub ]</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="juegos" class="py-24 px-6 max-w-7xl mx-auto">
+        <h3 class="text-2xl font-bold mb-12 uppercase tracking-widest border-l-4 border-white pl-4" data-aos="fade-left">El Grimorio de Juegos</h3>
+        <div class="grid md:grid-cols-3 gap-8">
+            <article class="glass p-4 rounded-2xl glass-hover" data-aos="fade-up" data-aos-delay="100">
+                <div class="bg-zinc-900 aspect-[4/5] rounded-xl mb-4 overflow-hidden relative">
+                     <div class="absolute inset-0 flex items-center justify-center font-bold text-zinc-700 uppercase tracking-tighter">Hell Riders Live</div>
+                </div>
+                <h4 class="font-bold text-xl uppercase italic">Hell Riders</h4>
+                <p class="text-gray-500 text-sm mt-2">Carreras de caballos extremas impulsadas por regalos.</p>
+            </article>
+
+            <article class="glass p-4 rounded-2xl glass-hover border-dashed" data-aos="fade-up" data-aos-delay="300">
+                <div class="bg-zinc-900 aspect-[4/5] rounded-xl mb-4 flex items-center justify-center">
+                    <span class="text-4xl opacity-20 font-bold">LUDO</span>
+                </div>
+                <h4 class="font-bold text-xl uppercase italic">The Clown</h4>
+                <p class="text-gray-500 text-sm mt-2">Terror interactivo. Próximamente integrado.</p>
+            </article>
+
+            <article class="glass p-4 rounded-2xl opacity-50" data-aos="fade-up" data-aos-delay="500">
+                <div class="bg-zinc-900 aspect-[4/5] rounded-xl mb-4 flex items-center justify-center">
+                    <span class="text-4xl opacity-10">?</span>
+                </div>
+                <h4 class="font-bold text-xl uppercase italic">Futuro Proyecto</h4>
+                <p class="text-gray-500 text-sm mt-2">En desarrollo por el Maestro Izofer.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="precios" class="py-24 px-6 bg-white text-black">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-5xl font-black mb-12 tracking-tighter" data-aos="zoom-in">PLANES DE MAESTRÍA</h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="border-2 border-black p-10 rounded-3xl hover:bg-black hover:text-white transition group" data-aos="fade-right">
+                    <h5 class="text-xl font-bold uppercase mb-4">Aprendiz Mensual</h5>
+                    <div class="text-5xl font-black mb-6">$4.99 <span class="text-lg font-normal">/mes</span></div>
+                    <ul class="text-left space-y-3 mb-10 opacity-70">
+                        <li>• Acceso total al Hub</li>
+                        <li>• Todos los juegos incluidos</li>
+                        <li>• Soporte técnico prioritario</li>
+                    </ul>
+                    <button class="w-full py-4 border-2 border-black font-bold rounded-xl group-hover:border-white transition uppercase text-xs">Suscribirse</button>
+                </div>
+                <div class="bg-black text-white p-10 rounded-3xl relative overflow-hidden" data-aos="fade-left">
+                    <div class="absolute top-0 right-0 bg-white text-black text-[10px] font-bold px-4 py-1 uppercase translate-x-2 translate-y-2 rotate-45">RECOMENDADO</div>
+                    <h5 class="text-xl font-bold uppercase mb-4">Maestro Anual</h5>
+                    <div class="text-5xl font-black mb-6">$32.99 <span class="text-lg font-normal">/año</span></div>
+                    <ul class="text-left space-y-3 mb-10 opacity-70">
+                        <li>• 1 Mes de regalo</li>
+                        <li>• Acceso anticipado a betas</li>
+                    </ul>
+                    <button class="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition uppercase text-xs">Iniciar Dominio</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-white/10 px-6 text-center text-gray-600 text-sm">
+        <p class="mb-4 tracking-[0.3em] font-bold text-white uppercase">Ludomancer</p>
+        <p>Desarrollado con precisión quirúrgica por <strong>Izofer</strong>.</p>
+        <p class="mt-2 uppercase tracking-tighter">© 2026 - El futuro es interactivo.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true, offset: 100 });
+
+        // Script Parallax
+        window.addEventListener('scroll', function() {
+            const scroll = window.pageYOffset;
+            document.getElementById('parallax-bg').style.transform = `translateY(${scroll * 0.3}px)`;
+        });
+
+        // Funciones del Modal
+        function toggleModal() {
+            const modal = document.getElementById('auth-modal');
+            const isVisible = modal.style.display === 'flex';
+            modal.style.display = isVisible ? 'none' : 'flex';
+            document.body.style.overflow = isVisible ? 'auto' : 'hidden';
+        }
+
+        function switchAuth(type) {
+            const login = document.getElementById('form-login');
+            const register = document.getElementById('form-register');
+            const tabL = document.getElementById('tab-login');
+            const tabR = document.getElementById('tab-register');
+
+            if (type === 'login') {
+                login.classList.remove('hidden');
+                register.classList.add('hidden');
+                tabL.classList.add('tab-active'); tabL.classList.remove('text-gray-500');
+                tabR.classList.remove('tab-active'); tabR.classList.add('text-gray-500');
+            } else {
+                login.classList.add('hidden');
+                register.classList.remove('hidden');
+                tabR.classList.add('tab-active'); tabR.classList.remove('text-gray-500');
+                tabL.classList.remove('tab-active'); tabL.classList.add('text-gray-500');
+            }
+        }
+
+        window.onclick = function(e) {
+            if (e.target == document.getElementById('auth-modal')) toggleModal();
+        }
+
+        // --- CONEXIÓN A LA API DE LARAVEL ---
+        const API_URL = 'http://127.0.0.1:8000/api'; // Cambie esto a su dominio real
+
+        // Lógica de Login
+        document.getElementById('form-login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-login-submit');
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            btn.innerText = "VERIFICANDO...";
+            btn.disabled = true;
+
+            try {
+                // Se apunta a /web/login sin el HWID
+                const response = await fetch(`${API_URL}/web/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('ludo_token', data.token);
+                    localStorage.setItem('ludo_user', JSON.stringify(data.user));
+                    window.location.href = "/dashboard"; // Asegúrese de que el archivo del dashboard se llame así
+                } else {
+                    alert(data.message || "Credenciales inválidas, mi señor.");
+                }
+            } catch (error) {
+                console.error("Error API:", error);
+                alert("Error de conexión con el Oráculo.");
+            } finally {
+                btn.innerText = "ACCEDER AL HUB";
+                btn.disabled = false;
+            }
+        });
+
+        // Lógica de Registro
+        document.getElementById('form-register').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-reg-submit');
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            btn.innerText = "FORJANDO...";
+            btn.disabled = true;
+
+            try {
+                // Se apunta a /web/register enviando password_confirmation para cumplir la validación
+                const response = await fetch(`${API_URL}/web/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                        password_confirmation: password 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.status === 201) {
+                    alert("Cuenta forjada con éxito. Inicie sesión para continuar.");
+                    switchAuth('login');
+                } else {
+                    // Manejo de errores de validación de Laravel (ej. email ya existe)
+                    if(data.errors) {
+                        const errorMessages = Object.values(data.errors).flat().join('\n');
+                        alert(errorMessages);
+                    } else {
+                        alert(data.message || "Error al engendrar el usuario.");
+                    }
+                }
+            } catch (error) {
+                console.error("Error API:", error);
+                alert("El Oráculo no pudo procesar el registro.");
+            } finally {
+                btn.innerText = "FORJAR CUENTA";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

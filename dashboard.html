@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Ludomancer Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/logoTitles.ico" type="image/x-icon">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: #fff; overflow: hidden; }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top right, #1a1a1a 0%, #000 80%);
+        }
+
+        .sidebar-item-active {
+            background: rgba(255, 255, 255, 0.1);
+            border-right: 4px solid white;
+        }
+
+        .auth-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            width: 100%;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .translate-y-2{
+            --tw-translate-y: 1.5rem!important;
+        }
+        .translate-x-3{
+            --tw-translate-x: 0.75rem!important;
+        }
+
+        .auth-input:focus { border-color: rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.1); }
+
+        .plan-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo{
+            width: 230px;
+        }
+
+        input[type="radio"]:checked + .plan-content {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .step-pill-active { background: white; color: black; }
+        .step-pill-inactive { border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255,255,255,0.4); }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+
+        /* Estilo para el Label de Rango */
+        .rank-label {
+            background: linear-gradient(90deg, #333 0%, #000 100%);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body class="hero-gradient h-screen flex">
+
+    <aside class="w-72 h-full glass border-r border-white/10 flex flex-col relative z-10">
+        <div class="p-8">
+            <div class="flex flex-col items-center gap-4 mb-10">
+                <img src="assets/logo.png" class="logo" alt="Ludomancer">
+                <div id="sidebar-plan-label" class="hidden rank-label px-4 py-1 rounded-full flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                    <span id="sidebar-plan-text" class="text-xs font-black uppercase tracking-widest text-glow">Cargando Rango...</span>
+                </div>
+            </div>
+
+            <nav class="space-y-2">
+                <button onclick="showModule('setup')" id="btn-setup" class="sidebar-item-active w-full flex items-center gap-4 px-4 py-4 rounded-xl transition hover:bg-white/5">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20m10-10H2"/></svg>
+                    <span class="text-sm font-bold uppercase tracking-tighter">Setup Hub</span>
+                </button>
+                <button onclick="showModule('config')" id="btn-config" class="w-full flex items-center gap-4 px-4 py-4 rounded-xl transition hover:bg-white/5 opacity-50 hidden">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+                    <span class="text-sm font-bold uppercase tracking-tighter">Configuración</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="mt-auto p-8 border-t border-white/10">
+            <button onclick="logout()" class="flex items-center gap-3 text-gray-500 hover:text-white transition">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
+                <span class="text-xs font-bold">CERRAR SESIÓN</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 h-full overflow-y-auto p-12 relative z-0">
+        
+        <div id="mod-setup" class="max-w-4xl mx-auto">
+            <header class="mb-12">
+                <h1 class="text-4xl font-black italic tracking-tighter">LUDOMANCER SETUP</h1>
+                <p class="text-gray-500 mt-2">Activa tu suscripción para descargar el grimorio digital.</p>
+            </header>
+
+            <div class="flex items-center gap-4 mb-16">
+                <div id="step-1-pill" class="step-pill-active px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">1. Selección de Plan</div>
+                <div class="h-[1px] w-12 bg-white/10"></div>
+                <div id="step-2-pill" class="step-pill-inactive px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">2. Instalador</div>
+            </div>
+
+            <div class="glass p-12 rounded-[2.5rem]">
+                <div id="setup-step-1">
+                    <h3 class="text-2xl font-bold mb-6 uppercase italic">Elige tu Nivel de Poder</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-4 mb-8">
+                        <label class="plan-card relative">
+                            <input type="radio" name="plan" value="monthly" checked class="hidden">
+                            <div class="plan-content glass p-6 rounded-2xl border border-white/10 hover:border-white/30 transition">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500 block mb-2">Aprendiz</span>
+                                <h4 class="text-xl font-black uppercase mb-1">Mensual</h4>
+                                <p class="text-2xl font-black text-glow">$4.99 <span class="text-xs font-normal opacity-50">/mes</span></p>
+                            </div>
+                        </label>
+
+                        <label class="plan-card relative">
+                            <input type="radio" name="plan" value="yearly" class="hidden">
+                            <div class="plan-content glass p-6 rounded-2xl border border-white/10 hover:border-white/30 transition relative overflow-hidden">
+                                <div class="absolute top-0 right-0 bg-white text-black text-[8px] font-bold px-3 py-1 uppercase translate-x-3 translate-y-2 rotate-45">Ahorra 45%</div>
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500 block mb-2">Maestro</span>
+                                <h4 class="text-xl font-black uppercase mb-1">Anual</h4>
+                                <p class="text-2xl font-black text-glow">$32.99 <span class="text-xs font-normal opacity-50">/año</span></p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <p class="text-gray-400 mb-8 text-sm leading-relaxed">Acceso instantáneo a todos los juegos futuros mientras la suscripción esté activa.</p>
+                    <button onclick="simulatePayment(event)" class="bg-white text-black font-black px-12 py-4 rounded-xl hover:scale-105 transition uppercase text-xs tracking-widest">Proceder al Pago</button>
+                </div>
+
+                <div id="setup-step-2" class="hidden text-center">
+                    <div class="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 uppercase italic">¡Suscripción Activa!</h3>
+                    <p class="text-gray-400 mb-10 leading-relaxed italic">Tu poder ha sido liberado. El pago se ha confirmado.</p>
+                    <a href="#" class="inline-block bg-white text-black font-black px-10 py-4 rounded-xl hover:bg-gray-200 transition uppercase text-xs tracking-widest">
+                        Descargar LudomancerHub_setup.exe
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="mod-config" class="max-w-4xl mx-auto hidden">
+            <header class="mb-12">
+                <h1 class="text-4xl font-black italic tracking-tighter">CONFIGURACIÓN</h1>
+                <p class="text-gray-500 mt-2">Gestiona tu identidad arcana en el Hub.</p>
+            </header>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass p-8 rounded-3xl">
+                    <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-8 border-l-2 border-white pl-3">Perfil del Maestro</h4>
+                    
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-[9px] uppercase text-gray-500 mb-1 block">Usuario</label>
+                                <p id="profile-name" class="text-sm font-bold opacity-60">Cargando...</p>
+                            </div>
+                            <div>
+                                <label class="text-[9px] uppercase text-gray-500 mb-1 block">Email</label>
+                                <p id="profile-email" class="text-sm font-bold opacity-60 text-xs truncate">Cargando...</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-white/10">
+                            <h5 class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Cambiar Llave de Acceso</h5>
+                            <form id="form-password" class="space-y-4">
+                                <div>
+                                    <label class="text-[9px] uppercase text-gray-500 mb-1 block">Contraseña Anterior</label>
+                                    <input type="password" placeholder="••••••••" class="auth-input text-sm">
+                                </div>
+                                <div>
+                                    <label class="text-[9px] uppercase text-gray-500 mb-1 block">Nueva Contraseña</label>
+                                    <input type="password" placeholder="••••••••" class="auth-input text-sm">
+                                </div>
+                                <button type="submit" class="w-full text-[10px] font-black uppercase tracking-widest bg-white text-black py-4 rounded-xl hover:invert transition-all duration-300">Actualizar Contraseña</button>
+                            </form>
+                        </div>
+
+                        <div class="pt-6 border-t border-white/10">
+                            <h5 class="text-[10px] font-bold uppercase tracking-widest text-red-400 mb-4">Gestión de Hardware</h5>
+                            <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-xl">
+                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">
+                                    Tu cuenta está vinculada a un solo equipo físico para evitar la piratería. 
+                                    <strong class="text-white block mt-2">⚠️ Solo puedes desvincular tu equipo UNA vez cada 30 días.</strong>
+                                    <span id="hwid-status" class="font-bold text-white block mt-2">Estado: Evaluando...</span>
+                                </p>
+                                <button id="btn-unlink" onclick="unlinkDevice()" class="w-full text-[10px] font-black uppercase tracking-widest bg-red-600/80 text-white py-3 rounded-xl hover:bg-red-600 transition-all hidden">
+                                    Desvincular Equipo Actual
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="glass p-8 rounded-3xl h-fit">
+                    <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-8 border-l-2 border-white pl-3">Rastros de Transacción</h4>
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-[9px] text-gray-500 border-b border-white/10 uppercase">
+                                <th class="pb-4 font-normal tracking-widest">Fecha</th>
+                                <th class="pb-4 font-normal tracking-widest hidden md:table-cell">Plan</th>
+                                <th class="pb-4 font-normal tracking-widest hidden sm:table-cell">Estado</th>
+                                <th class="pb-4 font-normal tracking-widest text-right">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-[11px] font-bold" id="transactions-body">
+                            <tr>
+                                <td colspan="4" class="py-4 text-center text-gray-500 font-normal">Consultando tesorería...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div id="pagination-controls" class="flex justify-between items-center mt-6 text-[9px] uppercase tracking-widest font-bold">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- CONSTANTES API ---
+        const API_BASE_URL = 'https://ludomancer.izofer.com/api';
+
+        // --- CONTROL DE SESIÓN ---
+        const token = localStorage.getItem('ludo_token');
+        if (!token) {
+            window.location.href = "https://ludomancer.izofer.com";
+        }
+
+        // --- FUNCIÓN MAESTRA: RENDERIZAR VISTA ---
+        function renderDashboardUI(user) {
+            document.getElementById('profile-name').innerText = user.name;
+            document.getElementById('profile-email').innerText = user.email;
+
+            const planLabelContainer = document.getElementById('sidebar-plan-label');
+            const planText = document.getElementById('sidebar-plan-text');
+            
+            if (user.plan_actual) {
+                planLabelContainer.classList.remove('hidden');
+                planText.innerText = user.plan_actual + " Rank";
+                if (user.status === 'activo') {
+                    planLabelContainer.classList.add('border-green-500/50');
+                    planLabelContainer.querySelector('span').classList.add('bg-green-500');
+                    planLabelContainer.querySelector('span').classList.remove('bg-white');
+                } else {
+                    planLabelContainer.classList.remove('border-green-500/50');
+                    planLabelContainer.querySelector('span').classList.remove('bg-green-500');
+                    planLabelContainer.querySelector('span').classList.add('bg-white');
+                }
+            }
+
+            const hwidStatus = document.getElementById('hwid-status');
+            const btnUnlink = document.getElementById('btn-unlink');
+            
+            if (user.hwid_actual === 'Yes') {
+                hwidStatus.innerHTML = `Estado: <span class="text-green-500">Equipo Vinculado</span>`;
+                btnUnlink.classList.remove('hidden'); 
+            } else {
+                hwidStatus.innerHTML = `Estado: <span class="text-yellow-500">Sin equipo vinculado. Abre el Hub de escritorio.</span>`;
+                btnUnlink.classList.add('hidden'); 
+            }
+
+            const btnConfig = document.getElementById('btn-config');
+            const setupStep1 = document.getElementById('setup-step-1');
+            const setupStep2 = document.getElementById('setup-step-2');
+
+            if (user.status === 'activo') {
+                btnConfig.classList.remove('hidden');
+                setupStep1.classList.add('hidden');
+                setupStep2.classList.remove('hidden');
+                
+                document.getElementById('step-1-pill').className = 'step-pill-inactive px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest';
+                document.getElementById('step-2-pill').className = 'step-pill-active px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest';
+            } else {
+                btnConfig.classList.add('hidden');
+                setupStep1.classList.remove('hidden');
+                setupStep2.classList.add('hidden');
+            }
+
+            checkUnlinkCooldown();
+        }
+
+        // --- FETCH DE TRANSACCIONES CON PAGINACIÓN ---
+        async function fetchTransactions(page = 1) {
+            const tbody = document.getElementById('transactions-body');
+            const paginationControls = document.getElementById('pagination-controls');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/web/transactions?page=${page}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const json = await response.json();
+                    const paginationData = json.data; 
+                    const txs = paginationData.data; 
+
+                    tbody.innerHTML = ''; 
+
+                    if (txs.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-gray-500 font-normal">No hay pergaminos de transacción registrados.</td></tr>`;
+                        paginationControls.innerHTML = '';
+                        return;
+                    }
+
+                    // Renderizar Filas
+                    txs.forEach(tx => {
+                        const row = document.createElement('tr');
+                        row.className = 'border-b border-white/5 group hover:bg-white/5 transition';
+                        
+                        // Color según estado
+                        let estadoColor = 'text-gray-400';
+                        if(['completed', 'approved', 'aprobado'].includes(tx.estado.toLowerCase())) estadoColor = 'text-green-500';
+                        else if(['pending', 'pendiente'].includes(tx.estado.toLowerCase())) estadoColor = 'text-yellow-500';
+                        else if(['failed', 'fallido', 'rejected'].includes(tx.estado.toLowerCase())) estadoColor = 'text-red-500';
+
+                        const fecha = new Date(tx.fecha).toLocaleDateString('us-US', { day: '2-digit', month: 'short', year: '2-digit' });
+
+                        row.innerHTML = `
+                            <td class="py-4 text-gray-300 font-normal">${fecha}</td>
+                            <td class="py-4 text-white hidden md:table-cell">${tx.plan}</td>
+                            <td class="py-4 ${estadoColor} uppercase hidden sm:table-cell">${tx.estado}</td>
+                            <td class="py-4 text-right text-glow text-white">${tx.pago}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+
+                    // Renderizar Botones de Paginación
+                    let paginationHTML = '';
+                    
+                    if (paginationData.current_page > 1) {
+                        paginationHTML += `<button onclick="fetchTransactions(${paginationData.current_page - 1})" class="hover:text-white transition text-gray-500 p-2">&laquo; Anterior</button>`;
+                    } else {
+                        paginationHTML += `<span class="text-gray-700 cursor-not-allowed p-2">&laquo; Anterior</span>`;
+                    }
+
+                    paginationHTML += `<span class="text-gray-400 bg-white/5 px-3 py-1 rounded-full">Página ${paginationData.current_page} de ${paginationData.last_page}</span>`;
+
+                    if (paginationData.current_page < paginationData.last_page) {
+                        paginationHTML += `<button onclick="fetchTransactions(${paginationData.current_page + 1})" class="hover:text-white transition text-gray-500 p-2">Siguiente &raquo;</button>`;
+                    } else {
+                        paginationHTML += `<span class="text-gray-700 cursor-not-allowed p-2">Siguiente &raquo;</span>`;
+                    }
+
+                    paginationControls.innerHTML = paginationHTML;
+                } else {
+                    throw new Error("Respuesta no satisfactoria del servidor.");
+                }
+            } catch (error) {
+                console.error("Error al obtener transacciones:", error);
+                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500 font-normal">Falla al consultar el archivo de tesorería.</td></tr>`;
+            }
+        }
+
+        // --- CARGA INICIAL ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            const cachedUser = localStorage.getItem('ludo_user');
+            if (cachedUser) {
+                renderDashboardUI(JSON.parse(cachedUser));
+            }
+
+            // Consultar Status del Usuario
+            try {
+                const response = await fetch(`${API_BASE_URL}/user/status`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const freshData = await response.json();
+                    let currentUser = JSON.parse(localStorage.getItem('ludo_user')) || {};
+                    currentUser.status = freshData.status;
+                    currentUser.dias_restantes = freshData.dias_restantes;
+                    currentUser.plan_actual = freshData.plan_actual;
+                    
+                    localStorage.setItem('ludo_user', JSON.stringify(currentUser));
+                    renderDashboardUI(currentUser);
+                } else if (response.status === 401) {
+                    logout();
+                }
+            } catch (error) {
+                console.error("No se pudo conectar con el servidor para actualizar el status.", error);
+            }
+
+            // Iniciar Carga de Transacciones
+            fetchTransactions();
+        });
+
+        // --- NAVEGACIÓN ---
+        function showModule(mod) {
+            const setup = document.getElementById('mod-setup');
+            const config = document.getElementById('mod-config');
+            const btnS = document.getElementById('btn-setup');
+            const btnC = document.getElementById('btn-config');
+
+            if (mod === 'setup') {
+                setup.classList.remove('hidden'); config.classList.add('hidden');
+                btnS.classList.add('sidebar-item-active'); btnS.classList.remove('opacity-50');
+                btnC.classList.remove('sidebar-item-active'); btnC.classList.add('opacity-50');
+            } else {
+                setup.classList.add('hidden'); config.classList.remove('hidden');
+                btnC.classList.add('sidebar-item-active'); btnC.classList.remove('opacity-50');
+                btnS.classList.remove('sidebar-item-active'); btnS.classList.add('opacity-50');
+            }
+        }
+
+        // --- INTEGRACIÓN MERCADO PAGO ---
+        async function simulatePayment(event) {
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerHTML = "CONECTANDO CON EL BANCO...";
+            btn.disabled = true;
+
+            const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
+            let planId = 1; 
+
+            if (selectedPlan === 'yearly') {
+                planId = 2; 
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/web/pagar`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify({
+                        plan_id: planId
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.init_point) {
+                    btn.innerHTML = "ABRIENDO PASARELA...";
+                    window.location.href = data.init_point; 
+                } else {
+                    alert(data.error || "Falla al contactar al banco.");
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error("Error de pasarela:", error);
+                alert("El Oráculo no pudo conectar con MercadoPago.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // --- LÓGICA DE DESVINCULACIÓN ---
+        function checkUnlinkCooldown() {
+            const lastReset = localStorage.getItem('ludo_last_reset');
+            const btnUnlink = document.getElementById('btn-unlink');
+            
+            if (lastReset && btnUnlink && !btnUnlink.classList.contains('hidden')) {
+                const lastResetDate = new Date(lastReset);
+                const now = new Date();
+                const diffTime = Math.abs(now - lastResetDate);
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays < 30) {
+                    btnUnlink.disabled = true;
+                    btnUnlink.classList.add('opacity-50', 'cursor-not-allowed');
+                    btnUnlink.classList.remove('hover:bg-red-600');
+                    btnUnlink.innerText = `BLOQUEADO (${30 - diffDays} DÍAS RESTANTES)`;
+                }
+            }
+        }
+
+        async function unlinkDevice() {
+            const lastReset = localStorage.getItem('ludo_last_reset');
+            if (lastReset) {
+                const diffDays = Math.floor(Math.abs(new Date() - new Date(lastReset)) / (1000 * 60 * 60 * 24));
+                if (diffDays < 30) {
+                    alert(`El Oráculo lo prohíbe. Debes esperar ${30 - diffDays} días más para desvincular un equipo.`);
+                    return;
+                }
+            }
+
+            if(confirm("¿Estás absolutamente seguro? Solo podrás hacer esto de nuevo en 30 días.")) {
+                
+                const btn = document.getElementById('btn-unlink');
+                const originalText = btn.innerText;
+                btn.innerText = "PROCESANDO...";
+                btn.disabled = true;
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/web/reset-hwid`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${token}` 
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert(data.mensaje || "Petición de desvinculación enviada con éxito.");
+                        
+                        document.getElementById('hwid-status').innerHTML = `Estado: <span class="text-yellow-500">Sin equipo vinculado. Abre el Hub de escritorio.</span>`;
+                        btn.classList.add('hidden');
+                        
+                        let user = JSON.parse(localStorage.getItem('ludo_user'));
+                        user.hwid_actual = 'No'; 
+                        localStorage.setItem('ludo_user', JSON.stringify(user));
+
+                        localStorage.setItem('ludo_last_reset', new Date().toISOString());
+                        checkUnlinkCooldown();
+                    } else {
+                        alert(data.message || "Error devuelto por el servidor.");
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                    }
+
+                } catch (error) {
+                    console.error("Error en el ritual de desvinculación:", error);
+                    alert("No se pudo conectar con el Oráculo en " + API_BASE_URL);
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }
+            }
+        }
+
+        // --- CERRAR SESIÓN ---
+        function logout() {
+            localStorage.removeItem('ludo_token');
+            localStorage.removeItem('ludo_user');
+            window.location.href = "https://ludomancer.izofer.com";
+        }
+    </script>
+
+</body>
+</html>
