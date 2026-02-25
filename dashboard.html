@@ -36,23 +36,13 @@
             transition: all 0.3s;
         }
 
-        .translate-y-2{
-            --tw-translate-y: 1.5rem!important;
-        }
-        .translate-x-3{
-            --tw-translate-x: 0.75rem!important;
-        }
+        .translate-y-2{ --tw-translate-y: 1.5rem!important; }
+        .translate-x-3{ --tw-translate-x: 0.75rem!important; }
 
         .auth-input:focus { border-color: rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.1); }
 
-        .plan-card {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .logo{
-            width: 230px;
-        }
+        .plan-card { cursor: pointer; transition: all 0.3s ease; }
+        .logo { width: 230px; }
 
         input[type="radio"]:checked + .plan-content {
             border-color: white;
@@ -65,11 +55,20 @@
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 
-        /* Estilo para el Label de Rango */
         .rank-label {
             background: linear-gradient(90deg, #333 0%, #000 100%);
             border: 1px solid rgba(255,255,255,0.2);
             box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        /* Modales Admin Estilos: Con ID ganan prioridad y se ocultan correctamente */
+        #admin-modal, #admin-plan-modal, #admin-game-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
         }
     </style>
 </head>
@@ -91,9 +90,27 @@
                     <span class="text-sm font-bold uppercase tracking-tighter">Setup Hub</span>
                 </button>
                 <button onclick="showModule('config')" id="btn-config" class="w-full flex items-center gap-4 px-4 py-4 rounded-xl transition hover:bg-white/5 opacity-50 hidden">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
                     <span class="text-sm font-bold uppercase tracking-tighter">Configuración</span>
                 </button>
+                
+                <div id="admin-menu-section" class="hidden">
+                    <div class="pt-6 pb-2">
+                        <p class="text-[9px] uppercase tracking-widest text-gray-500 font-bold ml-4">Cámara del Consejo</p>
+                    </div>
+                    <button onclick="showModule('admin-users')" id="btn-admin-users" class="w-full flex items-center gap-4 px-4 py-4 rounded-xl transition hover:bg-white/5 opacity-50">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <span class="text-sm font-bold uppercase tracking-tighter">Usuarios</span>
+                    </button>
+                    <button onclick="showModule('admin-plans')" id="btn-admin-plans" class="w-full flex items-center gap-4 px-4 py-4 rounded-xl transition hover:bg-white/5 opacity-50 mt-1">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h10M7 12h10M7 17h10"/></svg>
+                        <span class="text-sm font-bold uppercase tracking-tighter">Planes</span>
+                    </button>
+                    <button onclick="showModule('admin-games')" id="btn-admin-games" class="w-full flex items-center gap-4 px-4 py-4 rounded-xl transition hover:bg-white/5 opacity-50 mt-1">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 3 21 21 3 21 5 3"/><path d="m9 9 3 3-3 3"/><path d="M13 15h2"/></svg>
+                        <span class="text-sm font-bold uppercase tracking-tighter">Arsenal</span>
+                    </button>
+                </div>
             </nav>
         </div>
 
@@ -155,7 +172,7 @@
                     <h3 class="text-2xl font-bold mb-4 uppercase italic">¡Suscripción Activa!</h3>
                     <p class="text-gray-400 mb-10 leading-relaxed italic">Tu poder ha sido liberado. El pago se ha confirmado.</p>
                     <a href="#" class="inline-block bg-white text-black font-black px-10 py-4 rounded-xl hover:bg-gray-200 transition uppercase text-xs tracking-widest">
-                        Descargar LudomancerHub_setup.exe
+                        Descargar Ludomancer_Setup.exe
                     </a>
                 </div>
             </div>
@@ -233,17 +250,368 @@
                         </tbody>
                     </table>
                     
-                    <div id="pagination-controls" class="flex justify-between items-center mt-6 text-[9px] uppercase tracking-widest font-bold">
-                        </div>
+                    <div id="pagination-controls" class="flex justify-between items-center mt-6 text-[9px] uppercase tracking-widest font-bold"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mod-admin-users" class="max-w-6xl mx-auto hidden">
+            <header class="mb-12 flex justify-between items-end">
+                <div>
+                    <h1 class="text-4xl font-black italic tracking-tighter text-glow">GESTIÓN DE MAESTROS</h1>
+                    <p class="text-gray-500 mt-2">Administra los usuarios, planes y accesos al Hub.</p>
+                </div>
+                <button onclick="openAdminModal('create')" class="bg-white text-black font-black px-8 py-3 rounded-xl hover:scale-105 transition uppercase text-xs tracking-widest flex items-center gap-2">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                    Nuevo Usuario
+                </button>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="glass p-6 rounded-2xl border border-white/10 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Total Usuarios</p>
+                        <h4 class="text-3xl font-black" id="admin-stat-total">0</h4>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-full text-white">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                </div>
+                
+                <div class="glass p-6 rounded-2xl border border-white/10 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Plan Aprendiz</p>
+                        <h4 class="text-3xl font-black text-glow" id="admin-stat-monthly">0</h4>
+                    </div>
+                    <div class="p-3 bg-green-500/10 rounded-full text-green-500">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                </div>
+
+                <div class="glass p-6 rounded-2xl border border-white/10 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Plan Maestro</p>
+                        <h4 class="text-3xl font-black text-glow" id="admin-stat-yearly">0</h4>
+                    </div>
+                    <div class="p-3 bg-yellow-500/10 rounded-full text-yellow-500">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass p-8 rounded-3xl">
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <div class="flex-1 relative">
+                        <svg width="18" height="18" class="absolute left-4 top-3.5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" id="admin-search-input" onkeyup="debounceAdminSearch()" placeholder="Buscar por nombre o email..." class="auth-input pl-12 text-sm">
+                    </div>
+                    <select class="auth-input w-full md:w-48 text-sm cursor-pointer appearance-none">
+                        <option value="">Todos los Planes</option>
+                        <option value="1">Aprendiz</option>
+                        <option value="2">Maestro</option>
+                    </select>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left whitespace-nowrap">
+                        <thead>
+                            <tr class="text-[10px] text-gray-500 border-b border-white/10 uppercase tracking-widest">
+                                <th class="pb-4 px-2 font-normal">Usuario</th>
+                                <th class="pb-4 px-2 font-normal">Plan</th>
+                                <th class="pb-4 px-2 font-normal">Estado</th>
+                                <th class="pb-4 px-2 font-normal">HWID</th>
+                                <th class="pb-4 px-2 font-normal text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-tbody" class="text-sm font-bold">
+                            <tr>
+                                <td colspan="5" class="py-6 text-center text-gray-500 font-normal">Conectando con el Oráculo de Usuarios...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="admin-pagination-controls" class="flex justify-between items-center mt-6 text-[9px] uppercase tracking-widest font-bold"></div>
+            </div>
+        </div>
+
+        <div id="mod-admin-plans" class="max-w-6xl mx-auto hidden">
+            <header class="mb-12 flex justify-between items-end">
+                <div>
+                    <h1 class="text-4xl font-black italic tracking-tighter text-glow">INVENTARIO DE PLANES</h1>
+                    <p class="text-gray-500 mt-2">Gestiona la economía y los niveles de poder disponibles.</p>
+                </div>
+                <button onclick="openPlanModal('create')" class="bg-white text-black font-black px-8 py-3 rounded-xl hover:scale-105 transition uppercase text-xs tracking-widest flex items-center gap-2">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                    Forjar Plan
+                </button>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="glass p-6 rounded-2xl border border-white/10 flex items-center justify-between col-span-1 md:col-span-1">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Total Planes</p>
+                        <h4 class="text-3xl font-black" id="admin-stat-total-plans">0</h4>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-full text-white">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h10M7 12h10M7 17h10"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass p-8 rounded-3xl">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left whitespace-nowrap">
+                        <thead>
+                            <tr class="text-[10px] text-gray-500 border-b border-white/10 uppercase tracking-widest">
+                                <th class="pb-4 px-2 font-normal">Nombre del Plan</th>
+                                <th class="pb-4 px-2 font-normal">Precio</th>
+                                <th class="pb-4 px-2 font-normal">Días de Poder</th>
+                                <th class="pb-4 px-2 font-normal">Estado</th>
+                                <th class="pb-4 px-2 font-normal text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-plans-tbody" class="text-sm font-bold">
+                            <tr>
+                                <td colspan="5" class="py-6 text-center text-gray-500 font-normal">Consultando inventario de planes...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="mod-admin-games" class="max-w-6xl mx-auto hidden">
+            <header class="mb-12 flex justify-between items-end">
+                <div>
+                    <h1 class="text-4xl font-black italic tracking-tighter text-glow">GESTIÓN DEL ARSENAL</h1>
+                    <p class="text-gray-500 mt-2">Sube, actualiza y controla los juegos interactivos del Hub.</p>
+                </div>
+                <button onclick="openGameModal('create')" class="bg-white text-black font-black px-8 py-3 rounded-xl hover:scale-105 transition uppercase text-xs tracking-widest flex items-center gap-2">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                    Forjar Juego
+                </button>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="glass p-6 rounded-2xl border border-white/10 flex items-center justify-between col-span-1 md:col-span-1">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">Total Juegos</p>
+                        <h4 class="text-3xl font-black" id="admin-stat-total-games">0</h4>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-full text-white">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 3 21 21 3 21 5 3"/><path d="m9 9 3 3-3 3"/><path d="M13 15h2"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass p-8 rounded-3xl">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left whitespace-nowrap">
+                        <thead>
+                            <tr class="text-[10px] text-gray-500 border-b border-white/10 uppercase tracking-widest">
+                                <th class="pb-4 px-2 font-normal">Título</th>
+                                <th class="pb-4 px-2 font-normal">Versión</th>
+                                <th class="pb-4 px-2 font-normal">Estado</th>
+                                <th class="pb-4 px-2 font-normal text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-games-tbody" class="text-sm font-bold">
+                            <tr>
+                                <td colspan="4" class="py-6 text-center text-gray-500 font-normal">Consultando el Arsenal...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
     </main>
 
+    <div id="admin-modal">
+        <div class="glass w-full max-w-lg p-8 rounded-[2rem] relative shadow-2xl mx-auto mt-20">
+            <button onclick="closeAdminModal()" class="absolute top-6 right-6 text-gray-500 hover:text-white transition">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+
+            <div class="mb-8 border-b border-white/10 pb-4">
+                <h3 id="admin-modal-title" class="text-2xl font-black italic tracking-tighter uppercase">Forjar Nuevo Maestro</h3>
+                <p class="text-xs text-gray-400 mt-1">Configura las credenciales y el poder del usuario.</p>
+            </div>
+
+            <form id="form-admin-user" class="space-y-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Nombre de Usuario</label>
+                        <input type="text" id="admin-mod-name" class="auth-input" placeholder="Nombre completo" required>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Email</label>
+                        <input type="email" id="admin-mod-email" class="auth-input" placeholder="correo@ejemplo.com" required>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Plan Asignado</label>
+                        <select id="admin-mod-plan" class="auth-input text-sm cursor-pointer appearance-none">
+                            <option value="">Sin Plan</option>
+                            <option value="1">Aprendiz (Mensual)</option>
+                            <option value="2">Maestro (Anual)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Estado</label>
+                        <select id="admin-mod-status" class="auth-input text-sm cursor-pointer appearance-none">
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Nueva Contraseña (Opcional)</label>
+                    <input type="password" id="admin-mod-password" class="auth-input" placeholder="Dejar en blanco para no cambiar">
+                </div>
+
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Gestión de HWID</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="admin-mod-hwid-display" disabled value="Desconocido" class="auth-input opacity-50 flex-1 cursor-not-allowed">
+                        <button type="button" onclick="releaseAdminHwid()" class="bg-red-500/20 text-red-500 border border-red-500/50 px-4 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-red-50 hover:text-white transition">Liberar HWID</button>
+                    </div>
+                    <p class="text-[9px] text-gray-500 mt-2 italic">Si liberas el HWID, el usuario podrá registrar un nuevo equipo en el Hub.</p>
+                </div>
+
+                <div class="pt-4 border-t border-white/10 mt-6">
+                    <button type="submit" id="admin-mod-submit-btn" class="w-full py-4 bg-white text-black font-black rounded-xl hover:bg-gray-200 transition uppercase text-xs">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-plan-modal">
+        <div class="glass w-full max-w-lg p-8 rounded-[2rem] relative shadow-2xl mx-auto mt-20">
+            <button onclick="closePlanModal()" class="absolute top-6 right-6 text-gray-500 hover:text-white transition">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+
+            <div class="mb-8 border-b border-white/10 pb-4">
+                <h3 id="plan-modal-title" class="text-2xl font-black italic tracking-tighter uppercase">Forjar Nuevo Plan</h3>
+                <p class="text-xs text-gray-400 mt-1">Configura la economía del Hub.</p>
+            </div>
+
+            <form id="form-admin-plan" class="space-y-5">
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Nombre del Plan</label>
+                    <input type="text" id="plan-mod-name" class="auth-input" placeholder="Ej: Maestro Anual" required>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Precio</label>
+                        <input type="number" step="0.01" id="plan-mod-price" class="auth-input" placeholder="Ej: 32.99" required>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Moneda</label>
+                        <select id="plan-mod-currency" class="auth-input text-sm cursor-pointer appearance-none">
+                            <option value="USD">USD ($)</option>
+                            <option value="COP">COP ($)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Días de Poder</label>
+                        <input type="number" id="plan-mod-days" class="auth-input" placeholder="Ej: 30" required>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Estado en Tienda</label>
+                        <select id="plan-mod-active" class="auth-input text-sm cursor-pointer appearance-none">
+                            <option value="1">Activo (Visible)</option>
+                            <option value="0">Inactivo (Oculto)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-white/10 mt-6">
+                    <button type="submit" id="plan-mod-submit-btn" class="w-full py-4 bg-white text-black font-black rounded-xl hover:bg-gray-200 transition uppercase text-xs">Guardar Plan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-game-modal">
+        <div class="glass w-full max-w-2xl p-8 rounded-[2rem] relative shadow-2xl overflow-y-auto max-h-[90vh] mx-auto mt-10">
+            <button onclick="closeGameModal()" class="absolute top-6 right-6 text-gray-500 hover:text-white transition">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+
+            <div class="mb-8 border-b border-white/10 pb-4">
+                <h3 id="game-modal-title" class="text-2xl font-black italic tracking-tighter uppercase">Forjar Juego</h3>
+                <p class="text-xs text-gray-400 mt-1">Sube los binarios y configura la presencia del juego en el Hub.</p>
+            </div>
+
+            <form id="form-admin-game" class="space-y-5" enctype="multipart/form-data">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Título</label>
+                        <input type="text" id="game-mod-title" class="auth-input" placeholder="Ej: Hell Riders" required>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Slug (URL Limpia)</label>
+                        <input type="text" id="game-mod-slug" class="auth-input text-gray-400 font-mono" placeholder="Ej: hell-riders" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Descripción</label>
+                    <textarea id="game-mod-desc" rows="3" class="auth-input resize-none" placeholder="El mejor juego de carreras infernales..." required></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Versión Actual</label>
+                        <input type="text" id="game-mod-version" class="auth-input font-mono" placeholder="Ej: 1.0.4" required>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Estado Operativo</label>
+                        <select id="game-mod-status" class="auth-input text-sm cursor-pointer appearance-none">
+                            <option value="activo">Activo (Operativo)</option>
+                            <option value="mantenimiento">En Mantenimiento</option>
+                            <option value="bug_critico">Bug Crítico (Bloqueado)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Mensaje de Mantenimiento (Opcional)</label>
+                    <input type="text" id="game-mod-msg" class="auth-input" placeholder="Ej: Los servidores volverán a las 20:00...">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Archivo ZIP del Juego <span class="text-red-500" id="game-mod-zip-req">*</span></label>
+                        <input type="file" id="game-mod-zip" accept=".zip" class="auth-input p-2 text-xs">
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Banner (Imagen) <span class="text-red-500" id="game-mod-img-req">*</span></label>
+                        <input type="file" id="game-mod-img" accept="image/jpeg, image/png, image/webp" class="auth-input p-2 text-xs">
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-white/10 mt-6">
+                    <button type="submit" id="game-mod-submit-btn" class="w-full py-4 bg-white text-black font-black rounded-xl hover:bg-gray-200 transition uppercase text-xs">Desplegar en el Arsenal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // --- CONSTANTES API ---
-        const API_BASE_URL = 'https://api.ludomancer.izofer.com/api';
+        const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
         // --- CONTROL DE SESIÓN ---
         const token = localStorage.getItem('ludo_token');
@@ -251,7 +619,16 @@
             window.location.href = "https://ludomancer.izofer.com";
         }
 
-        // --- FUNCIÓN MAESTRA: RENDERIZAR VISTA ---
+        // --- VARIABLES GLOBALES ADMIN ---
+        let currentAdminPage = 1;
+        let currentEditUserId = null;
+        let adminClearHwidFlag = false;
+        let adminSearchTimeout = null;
+        
+        let currentEditPlanId = null;
+        let currentEditGameId = null;
+
+        // --- FUNCIÓN MAESTRA: RENDERIZAR VISTA (PERFIL USUARIO) ---
         function renderDashboardUI(user) {
             document.getElementById('profile-name').innerText = user.name;
             document.getElementById('profile-email').innerText = user.email;
@@ -304,7 +681,7 @@
             checkUnlinkCooldown();
         }
 
-        // --- FETCH DE TRANSACCIONES CON PAGINACIÓN ---
+        // --- FETCH DE TRANSACCIONES (USUARIO NORMAL) ---
         async function fetchTransactions(page = 1) {
             const tbody = document.getElementById('transactions-body');
             const paginationControls = document.getElementById('pagination-controls');
@@ -312,10 +689,7 @@
             try {
                 const response = await fetch(`${API_BASE_URL}/web/transactions?page=${page}`, {
                     method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
                 });
 
                 if (response.ok) {
@@ -331,21 +705,17 @@
                         return;
                     }
 
-                    // Renderizar Filas
                     txs.forEach(tx => {
                         const row = document.createElement('tr');
                         row.className = 'border-b border-white/5 group hover:bg-white/5 transition';
                         
-                        // Color según estado
                         let estadoColor = 'text-gray-400';
                         if(['completed', 'approved', 'aprobado'].includes(tx.estado.toLowerCase())) estadoColor = 'text-green-500';
                         else if(['pending', 'pendiente'].includes(tx.estado.toLowerCase())) estadoColor = 'text-yellow-500';
                         else if(['failed', 'fallido', 'rejected'].includes(tx.estado.toLowerCase())) estadoColor = 'text-red-500';
 
-                        const fecha = new Date(tx.fecha).toLocaleDateString('us-US', { day: '2-digit', month: 'short', year: '2-digit' });
-
                         row.innerHTML = `
-                            <td class="py-4 text-gray-300 font-normal">${fecha}</td>
+                            <td class="py-4 text-gray-300 font-normal">${tx.fecha}</td>
                             <td class="py-4 text-white hidden md:table-cell">${tx.plan}</td>
                             <td class="py-4 ${estadoColor} uppercase hidden sm:table-cell">${tx.estado}</td>
                             <td class="py-4 text-right text-glow text-white">${tx.pago}</td>
@@ -353,48 +723,260 @@
                         tbody.appendChild(row);
                     });
 
-                    // Renderizar Botones de Paginación
                     let paginationHTML = '';
-                    
                     if (paginationData.current_page > 1) {
                         paginationHTML += `<button onclick="fetchTransactions(${paginationData.current_page - 1})" class="hover:text-white transition text-gray-500 p-2">&laquo; Anterior</button>`;
                     } else {
                         paginationHTML += `<span class="text-gray-700 cursor-not-allowed p-2">&laquo; Anterior</span>`;
                     }
-
                     paginationHTML += `<span class="text-gray-400 bg-white/5 px-3 py-1 rounded-full">Página ${paginationData.current_page} de ${paginationData.last_page}</span>`;
-
                     if (paginationData.current_page < paginationData.last_page) {
                         paginationHTML += `<button onclick="fetchTransactions(${paginationData.current_page + 1})" class="hover:text-white transition text-gray-500 p-2">Siguiente &raquo;</button>`;
                     } else {
                         paginationHTML += `<span class="text-gray-700 cursor-not-allowed p-2">Siguiente &raquo;</span>`;
                     }
-
                     paginationControls.innerHTML = paginationHTML;
-                } else {
-                    throw new Error("Respuesta no satisfactoria del servidor.");
                 }
             } catch (error) {
                 console.error("Error al obtener transacciones:", error);
-                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500 font-normal">Falla al consultar el archivo de tesorería.</td></tr>`;
             }
         }
 
-        // --- CARGA INICIAL ---
+        // --- FETCH ADMIN CRUD USUARIOS ---
+        function debounceAdminSearch() {
+            clearTimeout(adminSearchTimeout);
+            adminSearchTimeout = setTimeout(() => { fetchAdminUsers(1); }, 500);
+        }
+
+        async function fetchAdminUsers(page = 1) {
+            currentAdminPage = page;
+            const tbody = document.getElementById('admin-users-tbody');
+            const pagination = document.getElementById('admin-pagination-controls');
+            const searchInput = document.getElementById('admin-search-input').value;
+            const adminMenuSection = document.getElementById('admin-menu-section');
+            const adminModView = document.getElementById('mod-admin-users');
+            
+            if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-gray-500 font-normal">Consultando el Oráculo de Usuarios...</td></tr>`;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/users?page=${page}&search=${encodeURIComponent(searchInput)}`, {
+                    headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+                });
+
+                const json = await response.json();
+
+                if (json.autorizacion === 'admins') {
+                    adminMenuSection.classList.remove('hidden');
+                } else {
+                    adminMenuSection.classList.add('hidden');
+                    if (!adminModView.classList.contains('hidden') && 
+                        !document.getElementById('mod-admin-plans').classList.contains('hidden') &&
+                        !document.getElementById('mod-admin-games').classList.contains('hidden')) {
+                        showModule('setup'); 
+                    }
+                    return; 
+                }
+
+                if (response.ok) {
+                    const users = json.data.data;
+                    const meta = json.data;
+                    const planesInfo = json.usuarios_con_planes; 
+
+                    document.getElementById('admin-stat-total').innerText = meta.total;
+                    if(planesInfo) {
+                        document.getElementById('admin-stat-monthly').innerText = planesInfo.aprendiz || 0;
+                        document.getElementById('admin-stat-yearly').innerText = planesInfo.maestro || 0;
+                    }
+
+                    tbody.innerHTML = '';
+                    if (users.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-gray-500 font-normal">No se encontraron maestros con ese criterio.</td></tr>`;
+                        pagination.innerHTML = '';
+                        return;
+                    }
+
+                    users.forEach(u => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'border-b border-white/5 group hover:bg-white/5 transition';
+                        
+                        let planBadge = `<span class="text-gray-500 text-[10px] uppercase">Ninguno</span>`;
+                        if(u.current_plan_id == 1 || (u.current_plan && u.current_plan.id == 1)) {
+                            planBadge = `<span class="bg-white/10 text-white px-3 py-1 rounded-full text-[10px] uppercase">Aprendiz</span>`;
+                        } else if(u.current_plan_id == 2 || (u.current_plan && u.current_plan.id == 2)) {
+                            planBadge = `<span class="bg-yellow-500/20 text-yellow-500 border border-yellow-500/20 px-3 py-1 rounded-full text-[10px] uppercase">Maestro</span>`;
+                        }
+
+                        let statusColor = 'text-gray-500 bg-gray-500';
+                        if(u.status === 'activo') statusColor = 'text-green-500 bg-green-500';
+                        if(u.status === 'inactivo') statusColor = 'text-red-500 bg-red-500';
+                        if(u.status === 'mantenimiento') statusColor = 'text-yellow-500 bg-yellow-500';
+
+                        let hwidText = u.mac_address ? `<span class="text-gray-400 font-normal font-mono text-xs">Vinculado</span>` : `<span class="text-yellow-500 font-normal font-mono text-xs">Libre</span>`;
+
+                        tr.innerHTML = `
+                            <td class="py-4 px-2">
+                                <p class="text-white">${u.name}</p>
+                                <p class="text-[10px] text-gray-500 font-normal">${u.email}</p>
+                            </td>
+                            <td class="py-4 px-2">${planBadge}</td>
+                            <td class="py-4 px-2"><span class="${statusColor.split(' ')[0]} text-[10px] uppercase flex items-center gap-1"><span class="w-2 h-2 rounded-full ${statusColor.split(' ')[1]} block"></span> ${u.status}</span></td>
+                            <td class="py-4 px-2">${hwidText}</td>
+                            <td class="py-4 px-2 text-right">
+                                <button onclick="openAdminModal('edit', ${u.id})" class="p-2 text-gray-400 hover:text-white transition" title="Editar Maestro">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                                </button>
+                                <button onclick="banAdminUser(${u.id})" class="p-2 text-gray-500 hover:text-red-500 transition" title="Desterrar Maestro">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+
+                    let pagHTML = '';
+                    if (meta.current_page > 1) pagHTML += `<button onclick="fetchAdminUsers(${meta.current_page - 1})" class="hover:text-white transition text-gray-500 p-2">&laquo; Anterior</button>`;
+                    else pagHTML += `<span class="text-gray-700 cursor-not-allowed p-2">&laquo; Anterior</span>`;
+                    
+                    pagHTML += `<span class="text-gray-400 bg-white/5 px-3 py-1 rounded-full">Página ${meta.current_page} de ${meta.last_page}</span>`;
+                    
+                    if (meta.current_page < meta.last_page) pagHTML += `<button onclick="fetchAdminUsers(${meta.current_page + 1})" class="hover:text-white transition text-gray-500 p-2">Siguiente &raquo;</button>`;
+                    else pagHTML += `<span class="text-gray-700 cursor-not-allowed p-2">Siguiente &raquo;</span>`;
+                    
+                    pagination.innerHTML = pagHTML;
+                }
+            } catch (error) {
+                console.error("Error Admin Users:", error);
+                if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-red-500 font-normal">Falla al consultar la base de datos de usuarios.</td></tr>`;
+            }
+        }
+
+        // --- FETCH ADMIN CRUD PLANES ---
+        async function fetchAdminPlans() {
+            const tbody = document.getElementById('admin-plans-tbody');
+            if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-gray-500 font-normal">Consultando el inventario de planes...</td></tr>`;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/plans`, {
+                    headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const json = await response.json();
+                    const plans = json.data;
+
+                    document.getElementById('admin-stat-total-plans').innerText = plans.length;
+
+                    tbody.innerHTML = '';
+                    if (plans.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-gray-500 font-normal">No hay planes forjados en el sistema.</td></tr>`;
+                        return;
+                    }
+
+                    plans.forEach(p => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'border-b border-white/5 group hover:bg-white/5 transition';
+                        
+                        let statusBadge = p.is_active 
+                            ? `<span class="text-green-500 text-[10px] uppercase flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500 block"></span> Activo</span>`
+                            : `<span class="text-gray-500 text-[10px] uppercase flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gray-500 block"></span> Oculto</span>`;
+
+                        tr.innerHTML = `
+                            <td class="py-4 px-2">
+                                <p class="text-white font-bold">${p.name}</p>
+                            </td>
+                            <td class="py-4 px-2 text-glow">$${p.price} <span class="text-xs text-gray-500 font-normal">${p.currency}</span></td>
+                            <td class="py-4 px-2 text-white">${p.days_of_power} días</td>
+                            <td class="py-4 px-2">${statusBadge}</td>
+                            <td class="py-4 px-2 text-right">
+                                <button onclick="openPlanModal('edit', ${p.id})" class="p-2 text-gray-400 hover:text-white transition" title="Modificar Plan">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                                </button>
+                                <button onclick="archiveAdminPlan(${p.id})" class="p-2 text-gray-500 hover:text-yellow-500 transition" title="Archivar Plan">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="3" rx="2"/><path d="M4 11v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9"/><path d="M10 15h4"/></svg>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            } catch (error) {
+                console.error("Error Admin Plans:", error);
+                if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-red-500 font-normal">Falla al conectar con la bóveda de planes.</td></tr>`;
+            }
+        }
+
+        // --- FETCH ADMIN CRUD JUEGOS ---
+        async function fetchAdminGames() {
+            const tbody = document.getElementById('admin-games-tbody');
+            if (tbody) tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-gray-500 font-normal">Inspeccionando el Arsenal...</td></tr>`;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/games`, {
+                    headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const json = await response.json();
+                    const games = json.data;
+
+                    // NUEVA LÓGICA: Actualizar tarjeta de Total Juegos
+                    const statTotalGames = document.getElementById('admin-stat-total-games');
+                    if (statTotalGames) statTotalGames.innerText = games.length;
+
+                    tbody.innerHTML = '';
+                    if (games.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-gray-500 font-normal">El Arsenal está vacío. Forja un juego nuevo.</td></tr>`;
+                        return;
+                    }
+
+                    games.forEach(g => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'border-b border-white/5 group hover:bg-white/5 transition';
+                        
+                        let statusColor = 'text-gray-500 bg-gray-500';
+                        if(g.status === 'activo') statusColor = 'text-green-500 bg-green-500';
+                        if(g.status === 'bug_critico') statusColor = 'text-red-500 bg-red-500';
+                        if(g.status === 'mantenimiento') statusColor = 'text-yellow-500 bg-yellow-500';
+
+                        tr.innerHTML = `
+                            <td class="py-4 px-2 flex items-center gap-3">
+                                <img src="${API_BASE_URL.replace('/api', '')}${g.imagen}" class="w-10 h-10 rounded object-cover border border-white/10" onerror="this.src='assets/logoTitles.ico'">
+                                <div>
+                                    <p class="text-white font-bold">${g.titulo}</p>
+                                    <p class="text-[9px] text-gray-500 font-mono">${g.slug}</p>
+                                </div>
+                            </td>
+                            <td class="py-4 px-2 text-white font-mono text-xs">v${g.version_actual}</td>
+                            <td class="py-4 px-2"><span class="${statusColor.split(' ')[0]} text-[10px] uppercase flex items-center gap-1"><span class="w-2 h-2 rounded-full ${statusColor.split(' ')[1]} block"></span> ${g.status}</span></td>
+                            <td class="py-4 px-2 text-right">
+                                <button onclick="openGameModal('edit', ${g.id})" class="p-2 text-gray-400 hover:text-white transition" title="Modificar Juego">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                                </button>
+                                <button onclick="destroyAdminGame(${g.id})" class="p-2 text-gray-500 hover:text-red-500 transition" title="Erradicar Juego">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            } catch (error) {
+                console.error("Error Admin Games:", error);
+                if (tbody) tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500 font-normal">Falla al conectar con la base de datos de juegos.</td></tr>`;
+            }
+        }
+
+        // --- CARGA INICIAL (DOM READY) ---
         document.addEventListener('DOMContentLoaded', async () => {
             const cachedUser = localStorage.getItem('ludo_user');
             if (cachedUser) {
                 renderDashboardUI(JSON.parse(cachedUser));
             }
 
-            // Consultar Status del Usuario
             try {
                 const response = await fetch(`${API_BASE_URL}/user/status`, {
                     method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
                 });
 
                 if (response.ok) {
@@ -410,29 +992,321 @@
                     logout();
                 }
             } catch (error) {
-                console.error("No se pudo conectar con el servidor para actualizar el status.", error);
+                console.error("Error de conexión Oráculo.", error);
             }
 
-            // Iniciar Carga de Transacciones
             fetchTransactions();
+            fetchAdminUsers(1); 
         });
 
-        // --- NAVEGACIÓN ---
+        // --- NAVEGACIÓN EXTENDIDA ---
         function showModule(mod) {
-            const setup = document.getElementById('mod-setup');
-            const config = document.getElementById('mod-config');
-            const btnS = document.getElementById('btn-setup');
-            const btnC = document.getElementById('btn-config');
+            const mods = ['setup', 'config', 'admin-users', 'admin-plans', 'admin-games'];
+            
+            mods.forEach(m => {
+                const el = document.getElementById(`mod-${m}`);
+                const btn = document.getElementById(`btn-${m}`);
+                
+                if (el && btn) {
+                    if (m === mod) {
+                        el.classList.remove('hidden');
+                        btn.classList.add('sidebar-item-active');
+                        btn.classList.remove('opacity-50');
+                        
+                        if (mod === 'admin-users') fetchAdminUsers(currentAdminPage);
+                        if (mod === 'admin-plans') fetchAdminPlans();
+                        if (mod === 'admin-games') fetchAdminGames();
+                    } else {
+                        el.classList.add('hidden');
+                        btn.classList.remove('sidebar-item-active');
+                        btn.classList.add('opacity-50');
+                    }
+                }
+            });
+        }
 
-            if (mod === 'setup') {
-                setup.classList.remove('hidden'); config.classList.add('hidden');
-                btnS.classList.add('sidebar-item-active'); btnS.classList.remove('opacity-50');
-                btnC.classList.remove('sidebar-item-active'); btnC.classList.add('opacity-50');
+        // --- FUNCIONES DEL MODAL DE ADMINISTRACIÓN DE USUARIOS ---
+        async function openAdminModal(mode, userId = null) {
+            const modal = document.getElementById('admin-modal');
+            const title = document.getElementById('admin-modal-title');
+            const form = document.getElementById('form-admin-user');
+            
+            form.reset();
+            adminClearHwidFlag = false;
+            document.getElementById('admin-mod-hwid-display').value = 'Desconocido';
+            currentEditUserId = userId;
+            
+            if(mode === 'create') {
+                title.innerText = "Forjar Nuevo Maestro";
+                document.getElementById('admin-mod-password').required = true; 
             } else {
-                setup.classList.add('hidden'); config.classList.remove('hidden');
-                btnC.classList.add('sidebar-item-active'); btnC.classList.remove('opacity-50');
-                btnS.classList.remove('sidebar-item-active'); btnS.classList.add('opacity-50');
+                title.innerText = "Editar Maestro Existente";
+                document.getElementById('admin-mod-password').required = false; 
+
+                try {
+                    const res = await fetch(`${API_BASE_URL}/admin/users/${userId}`, {
+                        headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+                    });
+                    if(res.ok) {
+                        const json = await res.json();
+                        const u = json.data;
+                        document.getElementById('admin-mod-name').value = u.name;
+                        document.getElementById('admin-mod-email').value = u.email;
+                        document.getElementById('admin-mod-plan').value = u.current_plan_id || "";
+                        document.getElementById('admin-mod-status').value = u.status;
+                        document.getElementById('admin-mod-hwid-display').value = u.mac_address ? 'Vinculado a máquina' : 'Libre';
+                    }
+                } catch(e) { console.error(e); }
             }
+            modal.style.display = 'flex';
+        }
+
+        function closeAdminModal() { document.getElementById('admin-modal').style.display = 'none'; }
+        function releaseAdminHwid() { adminClearHwidFlag = true; document.getElementById('admin-mod-hwid-display').value = 'Se liberará al guardar'; }
+
+        document.getElementById('form-admin-user').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('admin-mod-submit-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "GUARDANDO...";
+            btn.disabled = true;
+
+            const payload = {
+                name: document.getElementById('admin-mod-name').value,
+                email: document.getElementById('admin-mod-email').value,
+                status: document.getElementById('admin-mod-status').value,
+                current_plan_id: document.getElementById('admin-mod-plan').value || null
+            };
+
+            const pwd = document.getElementById('admin-mod-password').value;
+            if(pwd) payload.password = pwd;
+            if(adminClearHwidFlag) payload.mac_address = null;
+
+            const url = currentEditUserId ? `${API_BASE_URL}/admin/users/${currentEditUserId}` : `${API_BASE_URL}/admin/users`;
+            const method = currentEditUserId ? 'PUT' : 'POST'; 
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(payload)
+                });
+
+                if(response.ok) {
+                    alert("Cambios guardados con éxito.");
+                    closeAdminModal();
+                    fetchAdminUsers(currentAdminPage); 
+                } else {
+                    const errorData = await response.json();
+                    alert("Error al guardar: " + (errorData.message || "Valide los datos."));
+                }
+            } catch(e) { alert("Error de conexión con el Oráculo."); } 
+            finally { btn.innerText = originalText; btn.disabled = false; }
+        };
+
+        async function banAdminUser(id) {
+            if(confirm("¿Estás seguro de desterrar a este usuario? Quedará inactivo y su máquina desvinculada.")) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/admin/users/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+                    });
+                    if(response.ok) { alert("Usuario desterrado con éxito."); fetchAdminUsers(currentAdminPage); } 
+                    else { const err = await response.json(); alert("Fallo: " + (err.mensaje || err.message)); }
+                } catch(e) { alert("No se pudo aplicar el destierro."); }
+            }
+        }
+
+        // --- FUNCIONES DEL MODAL DE PLANES ---
+        async function openPlanModal(mode, planId = null) {
+            const modal = document.getElementById('admin-plan-modal');
+            const title = document.getElementById('plan-modal-title');
+            const form = document.getElementById('form-admin-plan');
+            
+            form.reset();
+            currentEditPlanId = planId;
+            
+            if(mode === 'create') {
+                title.innerText = "Forjar Nuevo Plan";
+            } else {
+                title.innerText = "Modificar Economía del Plan";
+                try {
+                    const res = await fetch(`${API_BASE_URL}/admin/plans/${planId}`, {
+                        headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+                    });
+                    if(res.ok) {
+                        const json = await res.json();
+                        const p = json.data;
+                        document.getElementById('plan-mod-name').value = p.name;
+                        document.getElementById('plan-mod-price').value = p.price;
+                        document.getElementById('plan-mod-currency').value = p.currency || 'USD';
+                        document.getElementById('plan-mod-days').value = p.days_of_power;
+                        document.getElementById('plan-mod-active').value = p.is_active ? "1" : "0";
+                    }
+                } catch(e) { console.error(e); }
+            }
+            modal.style.display = 'flex';
+        }
+
+        function closePlanModal() { document.getElementById('admin-plan-modal').style.display = 'none'; }
+
+        document.getElementById('form-admin-plan').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('plan-mod-submit-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "GUARDANDO...";
+            btn.disabled = true;
+
+            const payload = {
+                name: document.getElementById('plan-mod-name').value,
+                price: parseFloat(document.getElementById('plan-mod-price').value),
+                currency: document.getElementById('plan-mod-currency').value,
+                days_of_power: parseInt(document.getElementById('plan-mod-days').value),
+                is_active: document.getElementById('plan-mod-active').value === "1"
+            };
+
+            const url = currentEditPlanId ? `${API_BASE_URL}/admin/plans/${currentEditPlanId}` : `${API_BASE_URL}/admin/plans`;
+            const method = currentEditPlanId ? 'PUT' : 'POST'; 
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(payload)
+                });
+
+                if(response.ok) {
+                    alert("Plan guardado con éxito en la bóveda.");
+                    closePlanModal();
+                    fetchAdminPlans(); 
+                } else {
+                    const errorData = await response.json();
+                    alert("Error al guardar: " + (errorData.message || "Valide los datos."));
+                }
+            } catch(e) { alert("Error de conexión con el Oráculo."); } 
+            finally { btn.innerText = originalText; btn.disabled = false; }
+        };
+
+        async function archiveAdminPlan(id) {
+            if(confirm("¿Estás seguro de archivar este plan? Dejará de ser visible para los usuarios nuevos, pero los actuales lo conservarán.")) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/admin/plans/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+                    });
+                    if(response.ok) { alert("Plan archivado con éxito."); fetchAdminPlans(); } 
+                    else { const err = await response.json(); alert("Fallo: " + (err.mensaje || err.message)); }
+                } catch(e) { alert("No se pudo archivar el plan."); }
+            }
+        }
+
+        // --- FUNCIONES DEL MODAL DE JUEGOS ---
+        async function openGameModal(mode, gameId = null) {
+            const modal = document.getElementById('admin-game-modal');
+            const title = document.getElementById('game-modal-title');
+            const form = document.getElementById('form-admin-game');
+            
+            form.reset();
+            currentEditGameId = gameId;
+            
+            if(mode === 'create') {
+                title.innerText = "Forjar Juego en el Arsenal";
+                document.getElementById('game-mod-zip').required = true;
+                document.getElementById('game-mod-img').required = true;
+                document.getElementById('game-mod-zip-req').style.display = 'inline';
+                document.getElementById('game-mod-img-req').style.display = 'inline';
+            } else {
+                title.innerText = "Modificar y Parchear Juego";
+                document.getElementById('game-mod-zip').required = false;
+                document.getElementById('game-mod-img').required = false;
+                document.getElementById('game-mod-zip-req').style.display = 'none';
+                document.getElementById('game-mod-img-req').style.display = 'none';
+
+                try {
+                    const res = await fetch(`${API_BASE_URL}/admin/games/${gameId}`, {
+                        headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+                    });
+                    if(res.ok) {
+                        const json = await res.json();
+                        const g = json.data;
+                        document.getElementById('game-mod-title').value = g.titulo;
+                        document.getElementById('game-mod-slug').value = g.slug;
+                        document.getElementById('game-mod-desc').value = g.desc;
+                        document.getElementById('game-mod-version').value = g.version_actual;
+                        document.getElementById('game-mod-status').value = g.status;
+                        document.getElementById('game-mod-msg').value = g.mensaje_mantenimiento || "";
+                    }
+                } catch(e) { console.error(e); }
+            }
+            modal.style.display = 'flex';
+        }
+
+        function closeGameModal() { document.getElementById('admin-game-modal').style.display = 'none'; }
+
+        document.getElementById('form-admin-game').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('game-mod-submit-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "SINTETIZANDO BINARIOS...";
+            btn.disabled = true;
+
+            let formData = new FormData();
+            formData.append('titulo', document.getElementById('game-mod-title').value);
+            formData.append('slug', document.getElementById('game-mod-slug').value);
+            formData.append('desc', document.getElementById('game-mod-desc').value);
+            formData.append('version_actual', document.getElementById('game-mod-version').value);
+            formData.append('status', document.getElementById('game-mod-status').value);
+            formData.append('mensaje_mantenimiento', document.getElementById('game-mod-msg').value);
+
+            const zipFile = document.getElementById('game-mod-zip').files[0];
+            const imgFile = document.getElementById('game-mod-img').files[0];
+            
+            if (zipFile) formData.append('archivo_juego', zipFile);
+            if (imgFile) formData.append('imagen_file', imgFile);
+
+            let url = `${API_BASE_URL}/admin/games`;
+
+            if (currentEditGameId) {
+                url = `${API_BASE_URL}/admin/games/${currentEditGameId}`;
+            }
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST', 
+                    headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
+
+                if(response.ok) {
+                    alert(currentEditGameId ? "Parche aplicado exitosamente." : "Juego forjado e ingresado al Arsenal.");
+                    closeGameModal();
+                    fetchAdminGames(); 
+                } else {
+                    const errorData = await response.json();
+                    alert("Error en la forja: " + (errorData.message || "Valide los archivos."));
+                }
+            } catch(e) { alert("Error de conexión. Puede que los archivos sean demasiado pesados."); } 
+            finally { btn.innerText = originalText; btn.disabled = false; }
+        };
+
+        async function destroyAdminGame(id) {
+            if(confirm("TÁCTICA DE TIERRA ARRASADA:\n¿Estás seguro de erradicar este juego? Se borrará su carpeta, el .zip y su banner para siempre.")) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/admin/games/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
+                    });
+                    if(response.ok) { alert("El juego fue borrado de la existencia."); fetchAdminGames(); } 
+                    else { const err = await response.json(); alert("Fallo: " + (err.mensaje || err.message)); }
+                } catch(e) { alert("El juego resistió la eliminación."); }
+            }
+        }
+
+        // --- CERRAR MODALES AL HACER CLICK FUERA ---
+        window.onclick = function(e) {
+            if (e.target == document.getElementById('admin-modal')) closeAdminModal();
+            if (e.target == document.getElementById('admin-plan-modal')) closePlanModal();
+            if (e.target == document.getElementById('admin-game-modal')) closeGameModal();
         }
 
         // --- INTEGRACIÓN MERCADO PAGO ---
@@ -444,26 +1318,16 @@
 
             const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
             let planId = 1; 
-
-            if (selectedPlan === 'yearly') {
-                planId = 2; 
-            }
+            if (selectedPlan === 'yearly') planId = 2; 
 
             try {
                 const response = await fetch(`${API_BASE_URL}/web/pagar`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${token}` 
-                    },
-                    body: JSON.stringify({
-                        plan_id: planId
-                    })
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ plan_id: planId })
                 });
 
                 const data = await response.json();
-
                 if (response.ok && data.init_point) {
                     btn.innerHTML = "ABRIENDO PASARELA...";
                     window.location.href = data.init_point; 
@@ -480,7 +1344,7 @@
             }
         }
 
-        // --- LÓGICA DE DESVINCULACIÓN ---
+        // --- LÓGICA DE DESVINCULACIÓN DE HWID (USUARIO NORMAL) ---
         function checkUnlinkCooldown() {
             const lastReset = localStorage.getItem('ludo_last_reset');
             const btnUnlink = document.getElementById('btn-unlink');
@@ -488,8 +1352,7 @@
             if (lastReset && btnUnlink && !btnUnlink.classList.contains('hidden')) {
                 const lastResetDate = new Date(lastReset);
                 const now = new Date();
-                const diffTime = Math.abs(now - lastResetDate);
-                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                const diffDays = Math.floor(Math.abs(now - lastResetDate) / (1000 * 60 * 60 * 24));
                 
                 if (diffDays < 30) {
                     btnUnlink.disabled = true;
@@ -504,14 +1367,10 @@
             const lastReset = localStorage.getItem('ludo_last_reset');
             if (lastReset) {
                 const diffDays = Math.floor(Math.abs(new Date() - new Date(lastReset)) / (1000 * 60 * 60 * 24));
-                if (diffDays < 30) {
-                    alert(`El Oráculo lo prohíbe. Debes esperar ${30 - diffDays} días más para desvincular un equipo.`);
-                    return;
-                }
+                if (diffDays < 30) { alert(`El Oráculo lo prohíbe. Debes esperar ${30 - diffDays} días más.`); return; }
             }
 
             if(confirm("¿Estás absolutamente seguro? Solo podrás hacer esto de nuevo en 30 días.")) {
-                
                 const btn = document.getElementById('btn-unlink');
                 const originalText = btn.innerText;
                 btn.innerText = "PROCESANDO...";
@@ -520,36 +1379,27 @@
                 try {
                     const response = await fetch(`${API_BASE_URL}/web/reset-hwid`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'Authorization': `Bearer ${token}` 
-                        }
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': `Bearer ${token}` }
                     });
 
-                    const data = await response.json();
-
                     if (response.ok) {
-                        alert(data.mensaje || "Petición de desvinculación enviada con éxito.");
-                        
+                        alert("Petición de desvinculación enviada con éxito.");
                         document.getElementById('hwid-status').innerHTML = `Estado: <span class="text-yellow-500">Sin equipo vinculado. Abre el Hub de escritorio.</span>`;
                         btn.classList.add('hidden');
                         
                         let user = JSON.parse(localStorage.getItem('ludo_user'));
                         user.hwid_actual = 'No'; 
                         localStorage.setItem('ludo_user', JSON.stringify(user));
-
                         localStorage.setItem('ludo_last_reset', new Date().toISOString());
                         checkUnlinkCooldown();
                     } else {
+                        const data = await response.json();
                         alert(data.message || "Error devuelto por el servidor.");
                         btn.innerText = originalText;
                         btn.disabled = false;
                     }
-
                 } catch (error) {
-                    console.error("Error en el ritual de desvinculación:", error);
-                    alert("No se pudo conectar con el Oráculo en " + API_BASE_URL);
+                    alert("No se pudo conectar con el Oráculo.");
                     btn.innerText = originalText;
                     btn.disabled = false;
                 }
@@ -563,6 +1413,5 @@
             window.location.href = "https://ludomancer.izofer.com";
         }
     </script>
-
 </body>
 </html>

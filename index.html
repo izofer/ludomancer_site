@@ -142,7 +142,7 @@
                 <a href="#juegos" class="hover:text-gray-400 transition">Juegos</a>
                 <a href="#precios" class="hover:text-gray-400 transition">Planes</a>
             </div>
-            <button style="display:none"  onclick="toggleModal()" class="bg-white text-black px-5 py-2 rounded-full text-xs font-bold hover:bg-gray-200 transition uppercase">Iniciar Sesión</button>
+            <button onclick="toggleModal()" class="bg-white text-black px-5 py-2 rounded-full text-xs font-bold hover:bg-gray-200 transition uppercase">Iniciar Sesión</button>
         </div>
     </nav>
 
@@ -282,7 +282,8 @@
         }
 
         // --- CONEXIÓN A LA API DE LARAVEL ---
-        const API_URL = 'https://api.ludomancer.izofer.com/api'; // Cambie esto a su dominio real
+        //const API_URL = 'https://api.ludomancer.izofer.com/api';
+        const API_URL = 'http://127.0.0.1:8000/api'; 
 
         // Lógica de Login
         document.getElementById('form-login').addEventListener('submit', async (e) => {
