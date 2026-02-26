@@ -374,7 +374,9 @@
     </script>
 
     <script>
-        dowloadLudomancer()
+        document.addEventListener("DOMContentLoaded", function(event) {
+            dowloadLudomancer();
+        })
         function dowloadLudomancer() {
             const downloadLudo = document.getElementById('downloadLudo');
             const iniciarSesion = document.getElementById('iniciarSesion');
