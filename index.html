@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Ludomancer Hub | Juegos Interactivos para TikTok Live por Izofer</title>
-    <meta name="description" content="Domina TikTok Live con Ludomancer Hub. Gestiona juegos interactivos como Hell Riders, aumenta tu monetización y fideliza a tus seguidores. Desarrollado por Izofer.">
+    <meta name="description" content="Domina TikTok Live con Ludomancer. Gestiona juegos interactivos como Hell Riders, aumenta tu monetización y fideliza a tus seguidores. Desarrollado por Izofer.">
     <meta name="keywords" content="Ludomancer, TikTok Live Games, Juegos Interactivos, Izofer, Hell Riders TikTok, Streamer Software, SaaS Videojuegos">
     <meta name="author" content="Izofer">
     
-    <meta property="og:title" content="Ludomancer Hub | El Arte de la Interactividad">
+    <meta property="og:title" content="Ludomancer | Juegos Interactivos para TikTok Live">
     <meta property="og:description" content="Convierte tus directos de TikTok en una experiencia de juego masiva con nuestro Hub profesional.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://izofer.com/ludomancer">
@@ -142,21 +142,21 @@
                 <a href="#juegos" class="hover:text-gray-400 transition">Juegos</a>
                 <a href="#precios" class="hover:text-gray-400 transition">Planes</a>
             </div>
-            <button onclick="toggleModal()" class="bg-white text-black px-5 py-2 rounded-full text-xs font-bold hover:bg-gray-200 transition uppercase">Iniciar Sesión</button>
+            <button id="iniciarSesion" onclick="toggleModal()" class="bg-white text-black px-5 py-2 rounded-full text-xs font-bold hover:bg-gray-200 transition uppercase">Iniciar Sesión</button>
         </div>
     </nav>
 
     <header class="h-screen flex flex-col justify-center items-center text-center px-4 pt-20">
         <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter text-glow" data-aos="zoom-in" data-aos-duration="1500">
-            EL ARTE DE LA <br> INTERACTIVIDAD
+            DOMINA LO IMPREDICIBLE 
         </h1>
         <p class="max-w-2xl text-gray-400 text-lg md:text-xl mb-10 font-light" data-aos="fade-up" data-aos-delay="300">
-            Gestiona, lanza y monetiza tus directos de TikTok con LUDOMANCER. La biblioteca definitiva de juegos interactivos para streamers de élite.
+            La magia no es un truco, es control absoluto. Invoca juegos en tiempo real diseñados para TikTok LIVE. Transforma la energía de tu chat en regalos tangibles y sé el único arquitecto de tu propio espectáculo.
         </p>
         <div class="flex flex-col md:flex-row gap-4" data-aos="fade-up" data-aos-delay="600">
-            <a href="#" class="glass px-10 py-4 rounded-xl font-bold flex items-center gap-2 glass-hover border-white/20">
+            <a href="#" id="downloadLudo" class="glass px-10 py-4 rounded-xl font-bold flex items-center gap-2 glass-hover border-white/20">
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8.418 1.035a.5.5 0 0 0-.836 0L1.587 12.85A.5.5 0 0 0 2 13.5h12a.5.5 0 0 0 .413-.757L8.418 1.035z"/></svg>
-                DESCARGAR HUB (v1.0)
+                DESCARGAR LUDOMANCER
             </a>
             <a href="#juegos" class="bg-white text-black px-10 py-4 rounded-xl font-bold hover:scale-105 transition">EXPLORAR GRIMORIO</a>
         </div>
@@ -371,6 +371,17 @@
                 btn.disabled = false;
             }
         });
+    </script>
+
+    <script>
+        function dowloadLudomancer() {
+            const downloadLudo = document.getElementById('downloadLudo');
+            const iniciarSesion = document.getElementById('iniciarSesion');
+
+            downloadLudo.addEventListener('click', () => {
+                iniciarSesion.click();
+            });
+        }
     </script>
 </body>
 </html>
