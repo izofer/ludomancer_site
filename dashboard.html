@@ -938,10 +938,10 @@
                         if(g.status === 'activo') statusColor = 'text-green-500 bg-green-500';
                         if(g.status === 'bug_critico') statusColor = 'text-red-500 bg-red-500';
                         if(g.status === 'mantenimiento') statusColor = 'text-yellow-500 bg-yellow-500';
-                        console.log('url ', g.imagen)
+
                         tr.innerHTML = `
                             <td class="py-4 px-2 flex items-center gap-3">
-                                <img src="${g.imagen}" class="w-10 h-10 rounded object-cover border border-white/10" onerror="this.src='assets/logoTitles.ico'">
+                                <img src="https://api.ludomancer.izofer.com/${g.imagen}" class="w-10 h-10 rounded object-cover border border-white/10" onerror="this.src='assets/logoTitles.ico'">
                                 <div>
                                     <p class="text-white font-bold">${g.titulo}</p>
                                     <p class="text-[9px] text-gray-500 font-mono">${g.slug}</p>
