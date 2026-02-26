@@ -715,8 +715,13 @@
                         else if(['pending', 'pendiente'].includes(tx.estado.toLowerCase())) estadoColor = 'text-yellow-500';
                         else if(['failed', 'fallido', 'rejected'].includes(tx.estado.toLowerCase())) estadoColor = 'text-red-500';
 
+                        const fechaFormaSinHora = new Date(tx.fecha).toLocaleDateString('es-ES', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric'
+                        });
                         row.innerHTML = `
-                            <td class="py-4 text-gray-300 font-normal">${tx.fecha}</td>
+                            <td class="py-4 text-gray-300 font-normal">${fechaFormaSinHora}</td>
                             <td class="py-4 text-white hidden md:table-cell">${tx.plan}</td>
                             <td class="py-4 ${estadoColor} uppercase hidden sm:table-cell">${tx.estado}</td>
                             <td class="py-4 text-right text-glow text-white">${tx.pago}</td>
