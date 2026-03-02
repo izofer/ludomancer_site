@@ -85,6 +85,11 @@
             z-index: -1;
             pointer-events: none;
         }
+
+        .carousel img{
+            width: 574px;
+            height: 260px;
+        }
     </style>
 </head>
 <body class="hero-gradient">
@@ -181,7 +186,7 @@
         <h3 class="text-2xl font-bold mb-12 uppercase tracking-widest border-l-4 border-white pl-4" data-aos="fade-left">El Grimorio de Juegos</h3>
         <div class="grid md:grid-cols-3 gap-8">
             <article class="glass p-4 rounded-2xl glass-hover" data-aos="fade-up" data-aos-delay="100">
-                <div class="bg-zinc-900 aspect-[4/5] rounded-xl mb-4 overflow-hidden relative">
+                <div class="bg-zinc-900 aspect-[4/5] rounded-xl mb-4 overflow-hidden relative carousel">
                      <div class="absolute inset-0 flex items-center justify-center font-bold text-zinc-700 uppercase tracking-tighter">
                         <img src="https://api.ludomancer.izofer.com//storage/banners/uaA2taaG76WJEu13GsNNJCp98zoCKE7eZJoiXpmQ.png" alt="Hell Riders">
                      </div>
@@ -190,12 +195,14 @@
                 <p class="text-gray-400 text-sm mt-2">Monetiza el caos en vivo. Un coliseo interactivo donde el instinto competitivo de tu audiencia y sus regalos deciden quién conquista el infierno de las carreras.</p>
             </article>
 
-            <article class="glass p-4 rounded-2xl glass-hover border-dashed" data-aos="fade-up" data-aos-delay="300" style="display: none;">
-                <div class="bg-zinc-900 aspect-[4/5] rounded-xl mb-4 flex items-center justify-center">
-                    <span class="text-4xl opacity-20 font-bold">LUDO</span>
+            <article class="glass p-4 rounded-2xl glass-hover border-dashed" data-aos="fade-up" data-aos-delay="300">
+                <div class="bg-zinc-900 aspect-[4/5] rounded-xl mb-4 flex items-center justify-center carousel">
+                    <img src="https://api.ludomancer.izofer.com//storage/banners/NnULSr2Bzq5o4wHi8G0ab3T8fYOxmalob5w7yAhu.png" alt="SpaceTok">
                 </div>
-                <h4 class="font-bold text-xl uppercase italic">The Clown</h4>
-                <p class="text-gray-500 text-sm mt-2">Terror interactivo. Próximamente integrado.</p>
+                <h4 class="font-bold text-xl uppercase italic">SpaceTok</h4>
+                <p class="text-gray-500 text-sm mt-2">Un Shoot 'em up espacial de supervivencia donde el chat de TikTok es el verdadero jugador. Los espectadores eligen bandos y utilizan regalos reales para invocar naves 
+                    enemigas, escudos, jefes y curaciones en pantalla.
+                </p>
             </article>
 
             <article class="glass p-4 rounded-2xl opacity-50" data-aos="fade-up" data-aos-delay="500" style="display: none;">
